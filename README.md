@@ -1,43 +1,27 @@
-# NewsClub-Backend
- A news website which fetches news from inshorts news api.  
+# NewsClub · API
 
-## Description
+A small proxy in front of [The Guardian Open Platform](https://open-platform.theguardian.com/) for **[newsclub.hetdelwadiya.dev](https://newsclub.hetdelwadiya.dev)**.
 
-A news website build using React for frontend, Node.js and Express.js for backend. It fetches news from [inshorts news api](https://www.npmjs.com/package/inshorts-news-api). News of multiple categories are available. IIt has two language options for news which are English and Hindi
+Frontend: [NewsClub-Frontend](https://github.com/het-delwadiya/NewsClub-Frontend)
 
-## Demo
-  * This application is deployed on cloud. Please check it out :smile: https://newsclub.hetdelwadiya.dev/
- 
-## Note 
+## What it does
 
-  * This repo is just a backend of NewsClub website. You need frontend also. Check out frontend of NewsClub projects -> https://github.com/HeT-Delwadiya/NewsClub-Frontend.
+- `GET /api/stories?section=&q=&page=` returns articles for a section or a search, normalized to `{ id, title, summary, image, imageLarge, byline, url, publishedAt }`.
+- `GET /api/story?id=` returns a single article (used for share links). Ids are validated against the Guardian id format.
+- Responses are cached in memory for 10 minutes, and a stale copy is served if the Guardian API is rate-limited or down. The free developer key allows roughly 500 calls a day.
+- The API key stays on the server; there is no database.
 
-## Disclaimer
+v1 scraped Inshorts through an unofficial package. v2 uses an official, licensed source instead.
 
-  * I have used inshort's news API to get news from inshorts website. 
+## Development
 
-## Install
-
-Some basic Git commands are:
-
-```
-$ git clone https://github.com/HeT-Delwadiya/Devs-Den-Socket-Server.git
-$ cd project
-$ npm install
+```bash
+cp .env.example .env   # add GUARDIAN_KEY (free at open-platform.theguardian.com)
+npm install
+npm run dev            # http://localhost:8004/newsclub/api
+npm test
 ```
 
-## Run the application for development
+## License
 
-```
-$ node app.js 
-```
-
-## Languages & tools
-
-- [Node](https://nodejs.org/en/)
-
-- [Express](https://expressjs.com/)
-
-- [Redux](https://redux.js.org/)
-
-- [React](https://reactjs.org/)
+MIT
