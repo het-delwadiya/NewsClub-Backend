@@ -24,15 +24,15 @@ const listQuery = z.object({
 api.get("/stories", async (req, res) => {
   const q = listQuery.safeParse(req.query);
   if (!q.success) return res.status(400).json({ error: q.error.issues[0].message });
-  res.set("Cache-Control", "public, max-age=120");
-  res.json(await listStories(q.data));
+  const data = await listStories(q.data);
+  res.set("Cache-Control", "public, max-age=120").json(data);
 });
 
 api.get("/story", async (req, res) => {
   const id = String(req.query.id ?? "");
   if (!isStoryId(id)) return res.status(400).json({ error: "Invalid story id" });
-  res.set("Cache-Control", "public, max-age=600");
-  res.json(await getStory(id));
+  const story = await getStory(id);
+  res.set("Cache-Control", "public, max-age=600").json(story);
 });
 
 api.use((_req, res) => res.status(404).json({ error: "Route not found" }));
